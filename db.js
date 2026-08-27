@@ -1,7 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '..', 'data', 'db.json');
+const DB_PATH = path.join(__dirname, 'data', 'db.json');
+const DB_PATH = path.join(__dirname, 'data', 'db.json');
+const dataDir = path.dirname(DB_PATH);
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 function readRaw() {
   if (!fs.existsSync(DB_PATH)) {
