@@ -319,6 +319,7 @@ body {
               <option value="compact">Compact</option>
               <option value="minimal">Minimal</option>
               <option value="terminal">Terminal</option>
+              <option value="split">Split</option>
             </select>
           </div>
           <div class="field">
@@ -348,8 +349,17 @@ body {
               <option value="snow">Snow</option>
               <option value="rain">Rain</option>
               <option value="fireflies">Fireflies</option>
+              <option value="stars">Stars</option>
               <option value="dither">Dither</option>
               <option value="none">None / Flat</option>
+            </select>
+          </div>
+          <div class="field" id="reaction-field">
+            <label>Particle reaction to cursor</label>
+            <select data-path="effects.reaction">
+              <option value="none">None</option>
+              <option value="attract">Attract</option>
+              <option value="repel">Repel</option>
             </select>
           </div>
           <div class="field">
@@ -367,6 +377,18 @@ body {
           </div>
           <div class="field">
             <label><input type="checkbox" data-path="effects.cursor"> Custom cursor</label>
+          </div>
+          <div class="field">
+            <label>Cursor style</label>
+            <select data-path="effects.cursorStyle">
+              <option value="dot">Dot only</option>
+              <option value="ring">Dot + ring</option>
+              <option value="trail">Trail</option>
+              <option value="glow">Glow</option>
+            </select>
+          </div>
+          <div class="field">
+            <label><input type="checkbox" data-path="effects.tilt"> Card tilt on hover</label>
           </div>
         </div>
 
