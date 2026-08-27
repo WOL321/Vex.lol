@@ -43,8 +43,7 @@ const DEFAULT_CFG = {
     entranceSub: 'click anywhere to continue',
     cursor: false,
     cursorStyle: 'ring',
-    reaction: 'none',
-    tilt: false
+    reaction: 'none'
   },
 
   widgets: {
