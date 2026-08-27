@@ -22,7 +22,6 @@ const app = express();
 app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use('/uploads', express.static(uploadsDir));
-app.use(express.static(__dirname)); // serves the html files from root
 
 function deepMerge(base, extra) {
   const out = JSON.parse(JSON.stringify(base));
@@ -171,7 +170,7 @@ app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html'))
 app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'register.html')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'landing.html')));
 
-// put static AFTER the routes
+// static files AFTER routes
 app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
