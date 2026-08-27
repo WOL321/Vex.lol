@@ -489,26 +489,43 @@ function renderBadgeGrid(){
 }
 
 /* ============================================================ PREVIEW / EXPORT ============================================================ */
-function updatePreview(){
-  const html = window.buildPublicHTML(cfg, { views: 1284 });
-  document.getElementById('preview-iframe').srcdoc = html;
-  if(document.getElementById('fullscreen-frame').classList.contains('show')){
-    document.getElementById('fullscreen-iframe').srcdoc = html;
+/* ============ PERFORMANCE + PREVIEW ============ */
+let performanceMode = localStorage.getItem('vex-perf') === '1';
+let previewTimer = null;
+let lastPreview = 0;
+
+function setPerformanceMode(on) {
+  performanceMode = on;
+  localStorage.setItem('vex-perf', on ? '1' : '0');
+  const btn = document.getElementById('perf-btn');
+  if (btn) btn.textContent = on ? 'Performance: ON' : 'Performance: OFF';
+  updatePreview(true);
+}
+
+function scheduleUpdate() {
+  scheduleSave();
+  clearTimeout(previewTimer);
+  // Much less aggressive preview updates = way less lag
+  const delay = performanceMode ? 450 : 280;
+  previewTimer = setTimeout(() => updatePreview(false), delay);
+}
+
+function updatePreview(force = false) {
+  const now = Date.now();
+  if (!force && now - lastPreview < (performanceMode ? 400 : 220)) return;
+  lastPreview = now;
+
+  const iframe = document.getElementById('preview-iframe');
+  if (!iframe) return;
+
+  try {
+    const html = window.buildPublicHTML(cfg, { views: 0 });
+    // Use srcdoc instead of rewriting the whole document when possible
+    iframe.srcdoc = html;
+  } catch (e) {
+    console.warn('Preview error', e);
   }
 }
-document.getElementById('fullscreen-btn').addEventListener('click', ()=>{
-  document.getElementById('fullscreen-iframe').srcdoc = window.buildPublicHTML(cfg, { views: 1284 });
-  document.getElementById('fullscreen-frame').classList.add('show');
-});
-document.getElementById('exit-fs').addEventListener('click', ()=>{ document.getElementById('fullscreen-frame').classList.remove('show'); });
-document.getElementById('download-btn').addEventListener('click', ()=>{
-  const html = window.buildPublicHTML(cfg, { views: 1284 });
-  const blob = new Blob([html], { type:'text/html' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download=(myHandle||'profile')+'.html';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
-});
-
 init();
 </script>
 </body>
