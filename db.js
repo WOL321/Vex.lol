@@ -2,7 +2,6 @@ const fs = require('fs');
 const path = require('path');
 
 const DB_PATH = path.join(__dirname, 'data', 'db.json');
-const DB_PATH = path.join(__dirname, 'data', 'db.json');
 const dataDir = path.dirname(DB_PATH);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
@@ -19,7 +18,6 @@ let state = readRaw();
 let writeChain = Promise.resolve();
 
 function persist() {
-  // Chain writes so concurrent requests never interleave and corrupt the file.
   writeChain = writeChain.then(() => {
     return fs.promises.writeFile(DB_PATH, JSON.stringify(state, null, 2), 'utf8');
   });
@@ -27,7 +25,6 @@ function persist() {
 }
 
 const db = {
-  // ---- users ----
   findUserByHandle(handle) {
     return state.users.find(u => u.handle.toLowerCase() === String(handle).toLowerCase()) || null;
   },
@@ -42,8 +39,6 @@ const db = {
     state.users.push(user);
     return persist().then(() => user);
   },
-
-  // ---- profiles ----
   getProfile(userId) {
     return state.profilesByUserId[userId] || null;
   },
