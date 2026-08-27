@@ -15,13 +15,42 @@ function readRaw() {
 }
 
 let state = readRaw();
-let writeChain = Promise.resolve();
+
+// Async mutex
+let locked = false;
+const queue = [];
+
+function acquire() {
+  return new Promise(resolve => {
+    if (!locked) {
+      locked = true;
+      resolve();
+    } else {
+      queue.push(resolve);
+    }
+  });
+}
+
+function release() {
+  if (queue.length > 0) {
+    const next = queue.shift();
+    next();
+  } else {
+    locked = false;
+  }
+}
+
+async function withLock(fn) {
+  await acquire();
+  try {
+    return await fn();
+  } finally {
+    release();
+  }
+}
 
 function persist() {
-  writeChain = writeChain.then(() => {
-    return fs.promises.writeFile(DB_PATH, JSON.stringify(state, null, 2), 'utf8');
-  });
-  return writeChain;
+  return fs.promises.writeFile(DB_PATH, JSON.stringify(state, null, 2), 'utf8');
 }
 
 const db = {
@@ -34,29 +63,9 @@ const db = {
   findUserById(id) {
     return state.users.find(u => u.id === id) || null;
   },
-  createUser({ id, handle, email, passwordHash, createdAt }) {
-    const user = { id, handle, email, passwordHash, createdAt };
-    state.users.push(user);
-    return persist().then(() => user);
-  },
-  getProfile(userId) {
-    return state.profilesByUserId[userId] || null;
-  },
-  setProfile(userId, config) {
-    const existing = state.profilesByUserId[userId];
-    state.profilesByUserId[userId] = {
-      config,
-      views: existing ? existing.views : 0,
-      updatedAt: new Date().toISOString()
-    };
-    return persist().then(() => state.profilesByUserId[userId]);
-  },
-  incrementViews(userId) {
-    const p = state.profilesByUserId[userId];
-    if (!p) return Promise.resolve(0);
-    p.views = (p.views || 0) + 1;
-    return persist().then(() => p.views);
-  }
-};
 
-module.exports = db;
+  createUser({ id, handle, email, passwordHash, createdAt }) {
+    return withLock(async () => {
+      const user = { id, handle, email, passwordHash, createdAt };
+      state.users.push(user);
+      await 
