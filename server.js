@@ -171,6 +171,9 @@ app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html'))
 app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'register.html')));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'landing.html')));
 
+// put static AFTER the routes
+app.use(express.static(__dirname));
+
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`);
 });
