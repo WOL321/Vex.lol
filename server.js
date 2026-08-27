@@ -7,15 +7,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 
-const db = require('./lib/db');
-const { buildPublicHTML } = require('./lib/render');
-const { DEFAULT_CFG, PLATFORMS } = require('./lib/defaultConfig');
+const db = require('./db');
+const { buildPublicHTML } = require('./render');
+const { DEFAULT_CFG } = require('./defaultConfig');
 
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || (() => {
-  console.warn('[warn] JWT_SECRET not set in environment — using a random one-time secret. Sessions will not survive a restart. Set JWT_SECRET in production.');
-  return crypto.randomBytes(32).toString('hex');
-})();
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
 const RESERVED_HANDLES = new Set(['api','login','register','logout','dashboard','uploads','u','admin','www','assets','static','favicon.ico']);
 
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -25,9 +22,8 @@ const app = express();
 app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 app.use('/uploads', express.static(uploadsDir));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname)); // serves the html files from root
 
-/* ---------------- helpers ---------------- */
 function deepMerge(base, extra) {
   const out = JSON.parse(JSON.stringify(base));
   if (!extra) return out;
@@ -40,9 +36,11 @@ function deepMerge(base, extra) {
   }
   return out;
 }
+
 function signToken(user) {
   return jwt.sign({ id: user.id, handle: user.handle }, JWT_SECRET, { expiresIn: '30d' });
 }
+
 function authMiddleware(req, res, next) {
   const token = req.cookies.token;
   if (!token) return next();
@@ -50,19 +48,21 @@ function authMiddleware(req, res, next) {
     const payload = jwt.verify(token, JWT_SECRET);
     const user = db.findUserById(payload.id);
     if (user) req.user = { id: user.id, handle: user.handle, email: user.email };
-  } catch (e) { /* invalid/expired token — treat as logged out */ }
+  } catch (e) {}
   next();
 }
+
 function requireAuth(req, res, next) {
   if (!req.user) return res.status(401).json({ error: 'Not authenticated' });
   next();
 }
+
 function isValidHandle(handle) {
   return typeof handle === 'string' && /^[a-z0-9_-]{3,20}$/i.test(handle) && !RESERVED_HANDLES.has(handle.toLowerCase());
 }
+
 app.use(authMiddleware);
 
-/* ---------------- auth ---------------- */
 app.post('/api/auth/register', async (req, res) => {
   const { handle, email, password } = req.body || {};
   if (!isValidHandle(handle)) return res.status(400).json({ error: 'Handle must be 3-20 characters: letters, numbers, - or _' });
@@ -115,7 +115,6 @@ app.get('/api/handle-available/:handle', (req, res) => {
   res.json({ available: !db.findUserByHandle(h) });
 });
 
-/* ---------------- profile ---------------- */
 app.get('/api/profile', requireAuth, (req, res) => {
   const p = db.getProfile(req.user.id);
   const cfg = p ? p.config : DEFAULT_CFG;
@@ -125,7 +124,7 @@ app.get('/api/profile', requireAuth, (req, res) => {
 app.put('/api/profile', requireAuth, async (req, res) => {
   const incoming = req.body || {};
   const merged = deepMerge(DEFAULT_CFG, incoming);
-  merged.identity.handle = req.user.handle; // handle is account-controlled, not editable via config body
+  merged.identity.handle = req.user.handle;
   merged.socials = Array.isArray(incoming.socials) ? incoming.socials.filter(s => s && s.url) : [];
   merged.audio.tracks = Array.isArray(incoming.audio && incoming.audio.tracks) ? incoming.audio.tracks : [];
   merged.identity.taglines = Array.isArray(incoming.identity && incoming.identity.taglines) ? incoming.identity.taglines : [];
@@ -134,7 +133,7 @@ app.put('/api/profile', requireAuth, async (req, res) => {
   res.json({ ok: true });
 });
 
-app.post('/api/upload', requireAuth, (req, res, next) => {
+app.post('/api/upload', requireAuth, (req, res) => {
   const upload = multer({
     storage: multer.diskStorage({
       destination: uploadsDir,
@@ -157,10 +156,9 @@ app.post('/api/upload', requireAuth, (req, res, next) => {
   });
 });
 
-/* ---------------- public profile page ---------------- */
 app.get('/u/:handle', async (req, res) => {
   const user = db.findUserByHandle(req.params.handle);
-  if (!user) return res.status(404).send(notFoundPage(req.params.handle));
+  if (!user) return res.status(404).send(`<!DOCTYPE html><html><body style="background:#0a0a10;color:#eceef5;font-family:system-ui;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center"><div><h1>nobody here</h1><p>@${req.params.handle} hasn't claimed this profile.</p><p><a href="/register" style="color:#8b7cf6">Claim it →</a></p></div></body></html>`);
   const profile = db.getProfile(user.id);
   const cfg = profile ? profile.config : DEFAULT_CFG;
   const views = await db.incrementViews(user.id);
@@ -168,27 +166,11 @@ app.get('/u/:handle', async (req, res) => {
   res.send(buildPublicHTML(cfg, { views }));
 });
 
-function notFoundPage(handle) {
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>not found</title>
-  <style>body{background:#0a0a10;color:#eceef5;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;}
-  a{color:#8b7cf6;}</style></head>
-  <body><div><h1 style="font-weight:600;">nobody here</h1><p style="color:#8a8ea3;">@${handle} hasn't claimed this profile.</p><p><a href="/register">Claim it →</a></p></div></body></html>`;
-}
-
-/* ---------------- app pages ---------------- */
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
-});
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'register.html'));
-});
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
-});
+app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
+app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'register.html')));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'landing.html')));
 
 app.listen(PORT, () => {
-  console.log(`Profile platform running on http://localhost:${PORT}`);
+  console.log(`Running on http://localhost:${PORT}`);
 });
