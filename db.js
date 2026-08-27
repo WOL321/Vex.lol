@@ -68,4 +68,37 @@ const db = {
     return withLock(async () => {
       const user = { id, handle, email, passwordHash, createdAt };
       state.users.push(user);
-      await 
+      await persist();
+      return user;
+    });
+  },
+
+  getProfile(userId) {
+    return state.profilesByUserId[userId] || null;
+  },
+
+  setProfile(userId, config) {
+    return withLock(async () => {
+      const existing = state.profilesByUserId[userId];
+      state.profilesByUserId[userId] = {
+        config,
+        views: existing ? existing.views : 0,
+        updatedAt: new Date().toISOString()
+      };
+      await persist();
+      return state.profilesByUserId[userId];
+    });
+  },
+
+  incrementViews(userId) {
+    return withLock(async () => {
+      const p = state.profilesByUserId[userId];
+      if (!p) return 0;
+      p.views = (p.views || 0) + 1;
+      await persist();
+      return p.views;
+    });
+  }
+};
+
+module.exports = db;
