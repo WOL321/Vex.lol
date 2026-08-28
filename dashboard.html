@@ -9,7 +9,6 @@
 :root {
   --bg: #0a0a10;
   --panel: #12131c;
-  --panel-2: #181925;
   --border: rgba(255,255,255,0.07);
   --border-hi: rgba(255,255,255,0.13);
   --text: #eceef5;
@@ -19,7 +18,6 @@
   --accent2: #f6a56b;
   --ok: #7fd8a6;
   --danger: #f65b5b;
-  --radius: 14px;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -37,26 +35,22 @@ body {
   color: var(--text-dim);
   z-index: 100;
 }
-.app-shell {
-  display: flex;
-  height: 100vh;
-}
-/* ===== SIDEBAR ===== */
+.app-shell { display: flex; height: 100vh; }
+
 .rail {
-  width: 220px;
+  width: 210px;
   background: var(--panel);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  padding: 18px 12px;
+  padding: 16px 10px;
   flex-shrink: 0;
 }
 .rail-logo {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 22px;
-  letter-spacing: -0.03em;
-  padding: 4px 10px 20px;
+  font-size: 20px;
+  padding: 4px 10px 18px;
   background: linear-gradient(120deg, #fff 30%, var(--accent) 70%, var(--accent2));
   -webkit-background-clip: text;
   background-clip: text;
@@ -64,47 +58,38 @@ body {
 }
 .rail-section {
   font-size: 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
-  padding: 14px 10px 6px;
+  padding: 14px 10px 5px;
 }
 .tab-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   width: 100%;
-  padding: 9px 12px;
+  padding: 9px 11px;
   border: none;
   background: transparent;
   color: var(--text-dim);
   font-size: 13.5px;
   font-weight: 500;
-  border-radius: 9px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: left;
   transition: all 0.15s;
 }
 .tab-btn:hover { background: rgba(255,255,255,0.04); color: var(--text); }
-.tab-btn.active {
-  background: rgba(139,124,246,0.12);
-  color: var(--accent);
-}
-.tab-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-/* ===== MAIN ===== */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
+.tab-btn.active { background: rgba(139,124,246,0.13); color: var(--accent); }
+
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
 .topbar {
-  height: 54px;
+  height: 52px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 18px;
   background: var(--panel);
   flex-shrink: 0;
 }
@@ -116,14 +101,14 @@ body {
   font-size: 12px;
   color: var(--accent);
   text-decoration: none;
-  max-width: 200px;
+  max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .topbar-right { display: flex; gap: 8px; }
 .btn {
-  padding: 7px 13px;
+  padding: 7px 12px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: transparent;
@@ -136,54 +121,41 @@ body {
   transition: all 0.15s;
 }
 .btn:hover { background: rgba(255,255,255,0.05); border-color: var(--border-hi); }
-.btn svg { width: 14px; height: 14px; }
-.content {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-/* ===== SETTINGS PANEL ===== */
+
+.content { flex: 1; display: flex; overflow: hidden; }
 .settings {
-  width: 380px;
+  width: 370px;
   border-right: 1px solid var(--border);
   overflow-y: auto;
-  padding: 20px;
+  padding: 18px;
   background: var(--bg);
   flex-shrink: 0;
 }
-.settings h3 {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 14px;
-  color: var(--text);
-}
-.field { margin-bottom: 16px; }
+.settings h3 { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+.field { margin-bottom: 14px; }
 .field label {
   display: block;
   font-size: 11.5px;
   color: var(--text-dim);
-  margin-bottom: 6px;
+  margin-bottom: 5px;
   font-weight: 500;
 }
 .field input, .field textarea, .field select {
   width: 100%;
-  padding: 9px 11px;
+  padding: 8px 11px;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 9px;
+  border-radius: 8px;
   color: var(--text);
   font-size: 13px;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.15s;
 }
-.field input:focus, .field textarea:focus, .field select:focus {
-  border-color: var(--accent);
-}
-.field textarea { min-height: 80px; resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+.field textarea { min-height: 70px; resize: vertical; }
 .row { display: flex; gap: 10px; }
 .row .field { flex: 1; }
-/* ===== PREVIEW ===== */
+
 .preview-area {
   flex: 1;
   display: flex;
@@ -202,17 +174,17 @@ body {
   box-shadow: 0 30px 80px -20px rgba(0,0,0,0.7);
   background: #0a0a10;
 }
-#preview-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: #0a0a10;
-}
+#preview-iframe { width: 100%; height: 100%; border: none; background: #0a0a10; }
+
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
-@media (max-width: 1000px) {
-  .settings { width: 320px; }
-  .phone-frame { transform: scale(0.85); }
+
+.track-card, .social-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 </style>
 </head>
@@ -220,10 +192,8 @@ body {
 <div id="gate">loading your profile…</div>
 
 <div class="app-shell" id="shell" style="display:none;">
-  <!-- SIDEBAR -->
   <div class="rail">
     <div class="rail-logo">Vex</div>
-
     <div class="rail-section">Profile</div>
     <button class="tab-btn active" data-tab="identity">Identity</button>
     <button class="tab-btn" data-tab="appearance">Appearance</button>
@@ -232,12 +202,10 @@ body {
     <button class="tab-btn" data-tab="links">Links</button>
     <button class="tab-btn" data-tab="audio">Audio</button>
     <button class="tab-btn" data-tab="seo">SEO</button>
-
-    <div class="rail-section" style="margin-top:20px;">Account</div>
+    <div class="rail-section" style="margin-top:18px;">Account</div>
     <button class="tab-btn" id="logout-btn" style="color:var(--danger);">Log out</button>
   </div>
 
-  <!-- MAIN -->
   <div class="main">
     <div class="topbar">
       <div class="topbar-left">
@@ -249,56 +217,30 @@ body {
       </div>
       <div class="topbar-right">
         <button class="btn" id="perf-btn">Performance: OFF</button>
-        <button class="btn" id="fullscreen-btn">Full preview</button>
       </div>
     </div>
 
     <div class="content">
-      <!-- SETTINGS -->
       <div class="settings" id="settings">
         <!-- IDENTITY -->
         <div class="tab-panel active" data-panel="identity">
           <h3>Identity</h3>
-          <div class="field">
-            <label>Display name</label>
-            <input type="text" data-path="identity.display" placeholder="Your name">
-          </div>
-          <div class="field">
-            <label>Bio</label>
-            <textarea data-path="identity.bio" placeholder="A short bio..."></textarea>
-          </div>
-          <div class="field">
-            <label>Taglines (one per line)</label>
-            <textarea id="taglines-input" placeholder="welcome.&#10;building things."></textarea>
-          </div>
+          <div class="field"><label>Display name</label><input type="text" data-path="identity.display"></div>
+          <div class="field"><label>Bio</label><textarea data-path="identity.bio"></textarea></div>
+          <div class="field"><label>Taglines (one per line)</label><textarea id="taglines-input"></textarea></div>
           <div class="row">
-            <div class="field">
-              <label>Location</label>
-              <input type="text" data-path="identity.location" placeholder="City">
-            </div>
-            <div class="field">
-              <label>Joined text</label>
-              <input type="text" data-path="identity.joined" placeholder="est. 2026">
-            </div>
+            <div class="field"><label>Location</label><input type="text" data-path="identity.location"></div>
+            <div class="field"><label>Joined text</label><input type="text" data-path="identity.joined"></div>
           </div>
-          <div class="field">
-            <label>Avatar text (fallback)</label>
-            <input type="text" data-path="identity.avatarText" maxlength="2">
-          </div>
+          <div class="field"><label>Avatar text</label><input type="text" data-path="identity.avatarText" maxlength="2"></div>
         </div>
 
         <!-- APPEARANCE -->
         <div class="tab-panel" data-panel="appearance">
           <h3>Appearance</h3>
           <div class="row">
-            <div class="field">
-              <label>Accent 1</label>
-              <input type="color" data-path="theme.accent1">
-            </div>
-            <div class="field">
-              <label>Accent 2</label>
-              <input type="color" data-path="theme.accent2">
-            </div>
+            <div class="field"><label>Accent 1</label><input type="color" data-path="theme.accent1"></div>
+            <div class="field"><label>Accent 2</label><input type="color" data-path="theme.accent2"></div>
           </div>
           <div class="field">
             <label>Font</label>
@@ -321,18 +263,9 @@ body {
               <option value="terminal">Terminal</option>
             </select>
           </div>
-          <div class="field">
-            <label>Card width</label>
-            <input type="range" data-path="theme.cardWidth" min="340" max="520" step="10">
-          </div>
-          <div class="field">
-            <label>Glass / Opacity</label>
-            <input type="range" data-path="theme.glass" min="20" max="90">
-          </div>
-          <div class="field">
-            <label>Glow strength</label>
-            <input type="range" data-path="theme.glow" min="0" max="100">
-          </div>
+          <div class="field"><label>Card width</label><input type="range" data-path="theme.cardWidth" min="340" max="520" step="10"></div>
+          <div class="field"><label>Glass / Opacity</label><input type="range" data-path="theme.glass" min="20" max="90"></div>
+          <div class="field"><label>Glow strength</label><input type="range" data-path="theme.glow" min="0" max="100"></div>
         </div>
 
         <!-- EFFECTS -->
@@ -349,7 +282,7 @@ body {
               <option value="rain">Rain</option>
               <option value="fireflies">Fireflies</option>
               <option value="dither">Dither</option>
-              <option value="none">None / Flat</option>
+              <option value="none">None</option>
             </select>
           </div>
           <div class="field">
@@ -362,38 +295,19 @@ body {
               <option value="shake">Shake</option>
             </select>
           </div>
-          <div class="field">
-            <label><input type="checkbox" data-path="effects.entrance"> Entrance screen</label>
-          </div>
-          <div class="field">
-            <label><input type="checkbox" data-path="effects.cursor"> Custom cursor</label>
-          </div>
+          <div class="field"><label><input type="checkbox" data-path="effects.entrance"> Entrance screen</label></div>
+          <div class="field"><label><input type="checkbox" data-path="effects.cursor"> Custom cursor</label></div>
         </div>
 
         <!-- WIDGETS -->
         <div class="tab-panel" data-panel="widgets">
           <h3>Widgets</h3>
-          <div class="field">
-            <label><input type="checkbox" data-path="widgets.viewCounter"> View counter</label>
-          </div>
-          <div class="field">
-            <label><input type="checkbox" data-path="widgets.discord.enabled"> Discord widget</label>
-          </div>
-          <div class="field">
-            <label>Discord username</label>
-            <input type="text" data-path="widgets.discord.username">
-          </div>
-          <div class="field">
-            <label>Discord invite URL</label>
-            <input type="text" data-path="widgets.discord.inviteUrl" placeholder="https://discord.gg/...">
-          </div>
-          <div class="field">
-            <label><input type="checkbox" data-path="widgets.countdown.enabled"> Countdown</label>
-          </div>
-          <div class="field">
-            <label>Countdown target (ISO date)</label>
-            <input type="text" data-path="widgets.countdown.target" placeholder="2026-12-31T23:59:59">
-          </div>
+          <div class="field"><label><input type="checkbox" data-path="widgets.viewCounter"> View counter</label></div>
+          <div class="field"><label><input type="checkbox" data-path="widgets.discord.enabled"> Discord widget</label></div>
+          <div class="field"><label>Discord username</label><input type="text" data-path="widgets.discord.username"></div>
+          <div class="field"><label>Discord invite URL</label><input type="text" data-path="widgets.discord.inviteUrl"></div>
+          <div class="field"><label><input type="checkbox" data-path="widgets.countdown.enabled"> Countdown</label></div>
+          <div class="field"><label>Countdown target</label><input type="text" data-path="widgets.countdown.target" placeholder="2026-12-31T23:59:59"></div>
         </div>
 
         <!-- LINKS -->
@@ -405,34 +319,27 @@ body {
 
         <!-- AUDIO -->
         <div class="tab-panel" data-panel="audio">
-          <h3>Audio</h3>
-          <div class="field">
-            <label><input type="checkbox" data-path="audio.enabled"> Enable music player</label>
-          </div>
-          <div class="field">
-            <label><input type="checkbox" data-path="audio.autoplay"> Autoplay</label>
-          </div>
-          <div class="field">
-            <label>Volume</label>
-            <input type="range" data-path="audio.volume" min="0" max="100">
-          </div>
+          <h3>Audio Player</h3>
+          <div class="field"><label><input type="checkbox" data-path="audio.enabled"> Enable music player</label></div>
+          <div class="field"><label><input type="checkbox" data-path="audio.autoplay"> Autoplay</label></div>
+          <div class="field"><label>Volume</label><input type="range" data-path="audio.volume" min="0" max="100"></div>
+
+          <h3 style="margin-top:22px;">Tracks</h3>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">
+            Paste a direct audio file (.mp3) or a YouTube link.
+          </p>
+          <div id="tracks-list"></div>
+          <button class="btn" id="add-track" style="margin-top:10px;width:100%;justify-content:center;">+ Add Track</button>
         </div>
 
         <!-- SEO -->
         <div class="tab-panel" data-panel="seo">
           <h3>SEO & Meta</h3>
-          <div class="field">
-            <label>Page title</label>
-            <input type="text" data-path="meta.title">
-          </div>
-          <div class="field">
-            <label>Description</label>
-            <textarea data-path="meta.description"></textarea>
-          </div>
+          <div class="field"><label>Page title</label><input type="text" data-path="meta.title"></div>
+          <div class="field"><label>Description</label><textarea data-path="meta.description"></textarea></div>
         </div>
       </div>
 
-      <!-- PREVIEW -->
       <div class="preview-area">
         <div class="phone-frame">
           <iframe id="preview-iframe" title="Live preview"></iframe>
@@ -467,10 +374,7 @@ function setPath(obj, path, val) {
 async function init() {
   try {
     const meRes = await fetch('/api/me');
-    if (!meRes.ok) {
-      location.href = '/login';
-      return;
-    }
+    if (!meRes.ok) { location.href = '/login'; return; }
     const me = await meRes.json();
     myHandle = me.handle;
 
@@ -482,11 +386,12 @@ async function init() {
     document.getElementById('shell').style.display = 'flex';
 
     const origin = location.origin;
-    document.getElementById('live-link').href = `${origin}/u/${myHandle}`;
-    document.getElementById('live-link').textContent = `${origin}/u/${myHandle}`;
+    document.getElementById('live-link').href = origin + '/u/' + myHandle;
+    document.getElementById('live-link').textContent = origin + '/u/' + myHandle;
 
     bindInputs();
     renderSocials();
+    renderTracks();
     updatePreview(true);
     setPerformanceMode(performanceMode);
   } catch (e) {
@@ -506,7 +411,7 @@ function bindInputs() {
         setPath(cfg, path, el.checked);
         scheduleUpdate();
       });
-    } else if (el.type === 'color' || el.type === 'range' || el.tagName === 'SELECT' || el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+    } else {
       if (val !== undefined && val !== null) el.value = val;
       el.addEventListener('input', () => {
         let v = el.value;
@@ -517,9 +422,8 @@ function bindInputs() {
     }
   });
 
-  // Taglines special
   const tagInput = document.getElementById('taglines-input');
-  if (tagInput && cfg.identity.taglines) {
+  if (tagInput && cfg.identity?.taglines) {
     tagInput.value = cfg.identity.taglines.join('\n');
     tagInput.addEventListener('input', () => {
       cfg.identity.taglines = tagInput.value.split('\n').map(s => s.trim()).filter(Boolean);
@@ -560,13 +464,10 @@ function updatePreview(force = false) {
   const now = Date.now();
   if (!force && now - lastPreview < (performanceMode ? 380 : 200)) return;
   lastPreview = now;
-
   const iframe = document.getElementById('preview-iframe');
   if (!iframe || !window.buildPublicHTML) return;
-
   try {
-    const html = window.buildPublicHTML(cfg, { views: 0 });
-    iframe.srcdoc = html;
+    iframe.srcdoc = window.buildPublicHTML(cfg, { views: 0 });
   } catch (e) {
     console.warn('Preview error', e);
   }
@@ -579,22 +480,18 @@ function setPerformanceMode(on) {
   if (btn) btn.textContent = on ? 'Performance: ON' : 'Performance: OFF';
 }
 
-document.getElementById('perf-btn').addEventListener('click', () => {
-  setPerformanceMode(!performanceMode);
-});
-
+document.getElementById('perf-btn').addEventListener('click', () => setPerformanceMode(!performanceMode));
 document.getElementById('logout-btn').addEventListener('click', async () => {
   await fetch('/api/auth/logout', { method: 'POST' });
   location.href = '/login';
 });
 
-// Tabs
 document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
-    const panel = document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`);
+    const panel = document.querySelector('.tab-panel[data-panel="' + btn.dataset.tab + '"]');
     if (panel) panel.classList.add('active');
   });
 });
@@ -603,10 +500,16 @@ function renderSocials() {
   const list = document.getElementById('socials-list');
   if (!list || !cfg.socials) return;
   list.innerHTML = cfg.socials.map((s, i) => `
-    <div class="field" style="display:flex;gap:8px;align-items:center;">
-      <input type="text" value="${s.platform || ''}" placeholder="platform" data-social-i="${i}" data-social-key="platform" style="width:90px;">
-      <input type="text" value="${s.url || ''}" placeholder="https://..." data-social-i="${i}" data-social-key="url" style="flex:1;">
-      <button class="btn" onclick="removeSocial(${i})" style="padding:6px 9px;">×</button>
+    <div class="social-card">
+      <div class="field" style="margin-bottom:8px;">
+        <label>Platform</label>
+        <input type="text" value="${s.platform || ''}" data-social-i="${i}" data-social-key="platform">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label>URL</label>
+        <input type="text" value="${s.url || ''}" data-social-i="${i}" data-social-key="url">
+      </div>
+      <button class="btn" onclick="removeSocial(${i})" style="width:100%;justify-content:center;color:var(--danger);">Remove</button>
     </div>
   `).join('');
 
@@ -620,17 +523,61 @@ function renderSocials() {
     });
   });
 }
-
 window.removeSocial = function(i) {
   cfg.socials.splice(i, 1);
   renderSocials();
   scheduleUpdate();
 };
-
 document.getElementById('add-social').addEventListener('click', () => {
   if (!cfg.socials) cfg.socials = [];
-  cfg.socials.push({ platform: 'website', url: '', label: '' });
+  cfg.socials.push({ platform: 'website', url: '' });
   renderSocials();
+  scheduleUpdate();
+});
+
+function renderTracks() {
+  const list = document.getElementById('tracks-list');
+  if (!list) return;
+  if (!cfg.audio) cfg.audio = { enabled: false, autoplay: false, volume: 60, tracks: [] };
+  if (!cfg.audio.tracks) cfg.audio.tracks = [];
+
+  list.innerHTML = cfg.audio.tracks.map((t, i) => `
+    <div class="track-card">
+      <div class="field" style="margin-bottom:8px;">
+        <label>Title</label>
+        <input type="text" value="${t.title || ''}" data-track-i="${i}" data-track-key="title" placeholder="Song name">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label>Artist</label>
+        <input type="text" value="${t.artist || ''}" data-track-i="${i}" data-track-key="artist" placeholder="Artist">
+      </div>
+      <div class="field" style="margin-bottom:8px;">
+        <label>URL (mp3 or YouTube)</label>
+        <input type="text" value="${t.url || ''}" data-track-i="${i}" data-track-key="url" placeholder="https://...">
+      </div>
+      <button class="btn" onclick="removeTrack(${i})" style="width:100%;justify-content:center;color:var(--danger);">Remove</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('[data-track-i]').forEach(el => {
+    el.addEventListener('input', () => {
+      const i = Number(el.dataset.trackI);
+      const key = el.dataset.trackKey;
+      if (!cfg.audio.tracks[i]) cfg.audio.tracks[i] = {};
+      cfg.audio.tracks[i][key] = el.value;
+      scheduleUpdate();
+    });
+  });
+}
+window.removeTrack = function(i) {
+  cfg.audio.tracks.splice(i, 1);
+  renderTracks();
+  scheduleUpdate();
+};
+document.getElementById('add-track').addEventListener('click', () => {
+  if (!cfg.audio.tracks) cfg.audio.tracks = [];
+  cfg.audio.tracks.push({ title: 'New Track', artist: 'Unknown', url: '' });
+  renderTracks();
   scheduleUpdate();
 });
 
