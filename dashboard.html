@@ -121,7 +121,7 @@ body {
 .btn:hover { background: rgba(255,255,255,0.05); border-color: var(--border-hi); }
 .content { flex: 1; display: flex; overflow: hidden; }
 .settings {
-  width: 380px;
+  width: 390px;
   border-right: 1px solid var(--border);
   overflow-y: auto;
   padding: 18px;
@@ -129,7 +129,7 @@ body {
   flex-shrink: 0;
 }
 .settings h3 { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-.field { margin-bottom: 14px; }
+.field { margin-bottom: 13px; }
 .field label {
   display: block;
   font-size: 11.5px;
@@ -280,9 +280,28 @@ body {
               <option value="terminal">Terminal</option>
             </select>
           </div>
+          <div class="field">
+            <label>Username Effect</label>
+            <select data-path="theme.usernameEffect">
+              <option value="none">None</option>
+              <option value="gradient">Gradient</option>
+              <option value="glow">Glow</option>
+              <option value="rainbow">Rainbow</option>
+              <option value="shake">Shake</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Avatar Shape</label>
+            <select data-path="theme.avatarShape">
+              <option value="circle">Circle</option>
+              <option value="rounded">Rounded</option>
+            </select>
+          </div>
           <div class="field"><label>Card width</label><input type="range" data-path="theme.cardWidth" min="340" max="520" step="10"></div>
+          <div class="field"><label>Border Radius</label><input type="range" data-path="theme.radius" min="6" max="36"></div>
           <div class="field"><label>Glass / Opacity</label><input type="range" data-path="theme.glass" min="20" max="90"></div>
           <div class="field"><label>Glow strength</label><input type="range" data-path="theme.glow" min="0" max="100"></div>
+          <div class="field"><label><input type="checkbox" data-path="theme.cardGradient"> Card gradient overlay</label></div>
         </div>
 
         <!-- EFFECTS -->
@@ -299,21 +318,30 @@ body {
               <option value="rain">Rain</option>
               <option value="fireflies">Fireflies</option>
               <option value="dither">Dither</option>
-              <option value="none">None</option>
+              <option value="none">None / Flat</option>
             </select>
           </div>
           <div class="field">
-            <label>Username effect</label>
-            <select data-path="theme.usernameEffect">
+            <label>Particle Reaction</label>
+            <select data-path="effects.reaction">
+              <option value="repel">Repel</option>
+              <option value="attract">Attract</option>
               <option value="none">None</option>
-              <option value="gradient">Gradient</option>
-              <option value="glow">Glow</option>
-              <option value="rainbow">Rainbow</option>
-              <option value="shake">Shake</option>
             </select>
           </div>
+          <div class="field"><label>Background Dim</label><input type="range" data-path="background.dim" min="0" max="60"></div>
+          <div class="field"><label>Background Blur</label><input type="range" data-path="background.blur" min="0" max="20"></div>
           <div class="field"><label><input type="checkbox" data-path="effects.entrance"> Entrance screen</label></div>
+          <div class="field"><label>Entrance Title</label><input type="text" data-path="effects.entranceTitle"></div>
+          <div class="field"><label>Entrance Subtitle</label><input type="text" data-path="effects.entranceSub"></div>
           <div class="field"><label><input type="checkbox" data-path="effects.cursor"> Custom cursor</label></div>
+          <div class="field">
+            <label>Cursor Style</label>
+            <select data-path="effects.cursorStyle">
+              <option value="ring">Ring</option>
+              <option value="trail">Trail</option>
+            </select>
+          </div>
         </div>
 
         <!-- WIDGETS -->
