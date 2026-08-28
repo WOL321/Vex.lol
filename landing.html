@@ -1,28 +1,188 @@
-<!DOCTYPE html>
+<!<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>make your profile</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vex — your profile, your rules</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#0a0a10;color:#eceef5;font-family:'Manrope',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;
-    background-image:radial-gradient(ellipse 60% 40% at 30% 20%, rgba(139,124,246,0.12), transparent 60%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(246,165,107,0.08), transparent 60%);}
-  h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,7vw,56px);font-weight:700;letter-spacing:-0.02em;
-    background:linear-gradient(120deg,#fff 20%,#8b7cf6 60%,#f6a56b 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  p{color:#8a8ea3;margin-top:14px;font-size:15px;max-width:420px;}
-  .actions{display:flex;gap:12px;margin-top:36px;}
-  a.btn{padding:13px 28px;border-radius:999px;font-size:13px;text-decoration:none;font-weight:600;}
-  .primary{background:linear-gradient(135deg,#8b7cf6,#f6a56b);color:#0a0a10;}
-  .secondary{border:1px solid rgba(255,255,255,0.16);color:#eceef5;}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a10;
+    color: #eceef5;
+    font-family: 'Manrope', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(36px, 8vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    background: linear-gradient(120deg, #fff 20%, #8b7cf6 55%, #f6a56b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p {
+    color: #8a8ea3;
+    margin-top: 18px;
+    font-size: 16px;
+    max-width: 440px;
+    line-height: 1.55;
+  }
+  .actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  a.btn {
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  a.btn:hover { transform: translateY(-2px); }
+  .primary {
+    background: linear-gradient(135deg, #8b7cf6, #f6a56b);
+    color: #0a0a10;
+    box-shadow: 0 8px 30px -8px rgba(139,124,246,0.5);
+  }
+  .secondary {
+    border: 1px solid rgba(255,255,255,0.16);
+    color: #eceef5;
+  }
+  .secondary:hover {
+    background: rgba(255,255,255,0.05);
+  }
 </style>
 </head>
 <body>
-  <h1>your profile,<br>your rules.</h1>
-  <p>Build a fully custom bio page — live particle backgrounds, real audio, Discord widget, badges — and get your own link in under a minute.</p>
-  <div class="actions">
-    <a class="btn primary" href="/register">Create yours</a>
-    <a class="btn secondary" href="/login">Log in</a>
+  <canvas id="bg"></canvas>
+
+  <div class="content">
+    <h1>your profile,<br>your rules.</h1>
+    <p>Build a fully custom bio page — live particle backgrounds, real audio, Discord widget, badges — and get your own link in under a minute.</p>
+    <div class="actions">
+      <a class="btn primary" href="/register">Create yours</a>
+      <a class="btn secondary" href="/login">Log in</a>
+    </div>
   </div>
+
+<script>
+(function() {
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const COUNT = 90;
+  const mouse = { x: -9999, y: -9999 };
+  const ACCENT = [139, 124, 246]; // #8b7cf6
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < COUNT; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 1.8 + 0.6
+    });
+  }
+
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Mouse repulsion
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 140) {
+        const force = (140 - dist) / 140;
+        p.vx += (dx / dist) * force * 1.8;
+        p.vy += (dy / dist) * force * 1.8;
+      }
+
+      // Slight damping so they don't fly forever
+      p.vx *= 0.98;
+      p.vy *= 0.98;
+
+      // Base drift
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap edges
+      if (p.x < -10) p.x = W + 10;
+      if (p.x > W + 10) p.x = -10;
+      if (p.y < -10) p.y = H + 10;
+      if (p.y > H + 10) p.y = -10;
+
+      // Draw particle
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${ACCENT[0]},${ACCENT[1]},${ACCENT[2]},0.55)`;
+      ctx.fill();
+    }
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${ACCENT[0]},${ACCENT[1]},${ACCENT[2]},${0.12 * (1 - d / 120)})`;
+          ctx.lineWidth = 0.6;
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 </body>
 </html>
