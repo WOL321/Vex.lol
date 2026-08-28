@@ -16,34 +16,34 @@ const DEFAULT_CFG = {
   },
 
   theme: {
-    accent1: '#8b7cf6',
+    accent1: '#9f7aea',
     accent2: '#f6a56b',
-    font: 'space-grotesk',
-    radius: 20,
-    glass: 55,
-    glow: 50,
+    font: 'cyber',
+    radius: 22,
+    glass: 62,
+    glow: 70,
     layout: 'default',
-    cardWidth: 420,
+    cardWidth: 440,
     avatarShape: 'circle',
-    borderStyle: 'solid',
+    borderStyle: 'glow',
     cardGradient: true,
-    usernameEffect: 'none'
+    usernameEffect: 'gradient'
   },
 
   background: {
     style: 'particles',
     mediaUrl: '',
     blur: 0,
-    dim: 0
+    dim: 18
   },
 
   effects: {
     entrance: true,
     entranceTitle: '',
     entranceSub: 'click anywhere to continue',
-    cursor: false,
+    cursor: true,
     cursorStyle: 'ring',
-    reaction: 'none'
+    reaction: 'repel'
   },
 
   widgets: {
@@ -82,11 +82,11 @@ const DEFAULT_CFG = {
 };
 
 const PLATFORMS = [
-  'twitter', 'github', 'discord', 'instagram', 'youtube', 'tiktok',
-  'spotify', 'twitch', 'telegram', 'website', 'email', 'kick',
-  'reddit', 'steam', 'roblox', 'snapchat', 'linkedin', 'soundcloud',
-  'bluesky', 'threads', 'facebook', 'pinterest', 'paypal', 'xbox',
-  'psn', 'minecraft'
+  'twitter','github','discord','instagram','youtube','tiktok',
+  'spotify','twitch','telegram','website','email','kick',
+  'reddit','steam','roblox','snapchat','linkedin','soundcloud',
+  'bluesky','threads','facebook','pinterest','paypal','xbox',
+  'psn','minecraft'
 ];
 
 module.exports = { DEFAULT_CFG, PLATFORMS };
