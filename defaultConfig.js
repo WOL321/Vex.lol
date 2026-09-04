@@ -12,7 +12,11 @@ const DEFAULT_CFG = {
     age: '',
     ageShow: false,
     joined: '',
-    joinedShow: true
+    joinedShow: true,
+    useDiscordAvatar: false,
+    discordAvatarUrl: '',
+    discordAvatarDecoration: false,
+    avatarDecorationImg: ''
   },
 
   theme: {
@@ -25,12 +29,18 @@ const DEFAULT_CFG = {
     glow: 70,
     glowSocials: true,
     glowBadges: true,
+    glowUsername: false,
     layout: 'default',
     cardWidth: 440,
     avatarShape: 'circle',
     borderStyle: 'glow',
     cardGradient: true,
-    usernameEffect: 'gradient'
+    usernameEffect: 'gradient',
+    monochromeIcons: true,
+    iconColor: '#eceef5',
+    textColor: '#eceef5',
+    backgroundColor: '#0a0a10',
+    swapBoxColors: false
   },
 
   background: {
@@ -47,7 +57,8 @@ const DEFAULT_CFG = {
     cursor: true,
     cursorStyle: 'ring',
     cursorImage: '',
-    reaction: 'repel'
+    reaction: 'repel',
+    animatedTitle: false
   },
 
   widgets: {
@@ -72,6 +83,7 @@ const DEFAULT_CFG = {
     enabled: false,
     autoplay: false,
     volume: 60,
+    volumeControl: false,
     tracks: []
   },
 
