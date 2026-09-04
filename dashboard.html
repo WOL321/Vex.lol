@@ -374,6 +374,25 @@ body {
               <button class="btn" onclick="uploadImage('identity.bannerImg')">Upload</button>
             </div>
           </div>
+
+          <label class="check"><input type="checkbox" data-path="identity.useDiscordAvatar"> Use Discord avatar</label>
+          <div class="field">
+            <label>Discord avatar URL</label>
+            <div class="upload-row">
+              <input type="text" data-path="identity.discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
+              <button class="btn" onclick="uploadImage('identity.discordAvatarUrl')">Upload</button>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text-faint);margin:-6px 0 8px;line-height:1.4;">We don't pull this live from Discord — paste your avatar's direct image URL (right-click your Discord pfp → Copy Image Address), or upload the file directly.</p>
+
+          <label class="check"><input type="checkbox" data-path="identity.discordAvatarDecoration"> Avatar decoration</label>
+          <div class="field">
+            <label>Decoration image (png with transparency)</label>
+            <div class="upload-row">
+              <input type="text" data-path="identity.avatarDecorationImg" placeholder="URL or upload">
+              <button class="btn" onclick="uploadImage('identity.avatarDecorationImg')">Upload</button>
+            </div>
+          </div>
         </div>
 
         <!-- APPEARANCE -->
@@ -429,6 +448,14 @@ body {
           <label class="check"><input type="checkbox" data-path="theme.cardGradient"> Card gradient</label>
           <label class="check"><input type="checkbox" data-path="theme.glowSocials"> Glow on socials</label>
           <label class="check"><input type="checkbox" data-path="theme.glowBadges"> Glow on badges</label>
+          <label class="check"><input type="checkbox" data-path="theme.glowUsername"> Glow on username</label>
+          <label class="check"><input type="checkbox" data-path="theme.monochromeIcons"> Monochrome icons</label>
+          <label class="check"><input type="checkbox" data-path="theme.swapBoxColors"> Swap box colors</label>
+          <div class="row">
+            <div class="field"><label>Icon color</label><input type="color" data-path="theme.iconColor"></div>
+            <div class="field"><label>Text color</label><input type="color" data-path="theme.textColor"></div>
+            <div class="field"><label>Background color</label><input type="color" data-path="theme.backgroundColor"></div>
+          </div>
         </div>
 
         <!-- EFFECTS -->
@@ -469,6 +496,14 @@ body {
               <option value="trail">Trail</option>
             </select>
           </div>
+          <div class="field">
+            <label>Cursor image (overrides style above)</label>
+            <div class="upload-row">
+              <input type="text" data-path="effects.cursorImage" placeholder="URL or upload">
+              <button class="btn" onclick="uploadImage('effects.cursorImage')">Upload</button>
+            </div>
+          </div>
+          <label class="check"><input type="checkbox" data-path="effects.animatedTitle"> Animated title</label>
         </div>
 
         <!-- WIDGETS -->
@@ -500,6 +535,7 @@ body {
           <h3>Audio</h3>
           <label class="check"><input type="checkbox" data-path="audio.enabled"> Enable player</label>
           <label class="check"><input type="checkbox" data-path="audio.autoplay"> Autoplay</label>
+          <label class="check"><input type="checkbox" data-path="audio.volumeControl"> Volume control (slider on profile)</label>
           <div class="field"><label>Volume</label><input type="range" data-path="audio.volume" min="0" max="100"></div>
           <h3 style="margin-top:18px;">Tracks</h3>
           <div id="tracks-list"></div>
